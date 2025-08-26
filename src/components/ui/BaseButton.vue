@@ -12,7 +12,6 @@ button {
   cursor: pointer;
   text-decoration: none;
   padding: 8px 10px;
-  // border: 1px solid $white;
   border: none;
   transition: all 0.2s ease;
 }

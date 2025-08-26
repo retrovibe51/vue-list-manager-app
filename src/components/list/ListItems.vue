@@ -95,11 +95,8 @@ section {
 }
 
 .list-items-container {
-  // border-top: 1px grey solid;
-  // border-bottom: 1px grey solid;
   flex: 8;
   background-color: $white;
-  // box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
 ul {
@@ -113,7 +110,6 @@ li {
   align-items: center;
   margin: 0;
   padding: 8px;
-  // background-color: $antiFlashWhite;
   color: $richBlack;
   transition: all 0.5s ease;
 }
@@ -152,11 +148,6 @@ li:hover .btn-delete {
 .list-items-header {
   padding: 5px 10px;
   flex: 1;
-  // border: 3px solid $xanthous;
-  // border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1;
-  // border-top-left-radius: 8px;
-  // border-top-right-radius: 8px;
-  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   background-color: $antiFlashWhite2;
   color: $richBlack;
   border-bottom: 1px solid $antiFlashWhite;

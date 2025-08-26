@@ -111,7 +111,6 @@ li:not(.active):hover {
 
 .btn-delete {
   font-size: 14px;
-  /* background-color: rgb(125, 135, 145); */
   background-color: transparent;
   opacity: 0;
   cursor: pointer;

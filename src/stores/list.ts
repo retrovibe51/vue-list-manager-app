@@ -1,77 +1,18 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import { addListItem, getListById, getLists, addList, deleteList, deleteListItem } from '@/api';
+import { addListItem, getListById, getLists, addList, deleteList, deleteListItem } from '@/api/lists';
 import type { List, ListItem } from '@/types/list';
+import { SortType } from '@/types/sorting';
 
 export const useListStore = defineStore('list', () => {
-  // const lists = ref<List[]>([
-  //   {
-  //     id: 477,
-  //     name: 'Test List',
-  //     userId: 322,
-  //     // list_items: [
-  //     //   {
-  //     //     id: 3282,
-  //     //     name: 'List A',
-  //     //     listId: 477,
-  //     //   },
-  //     //   {
-  //     //     id: 3284,
-  //     //     name: 'List C',
-  //     //     listId: 477,
-  //     //   },
-  //     //   {
-  //     //     id: 3285,
-  //     //     name: 'List Eee',
-  //     //     listId: 477,
-  //     //   },
-  //     //   {
-  //     //     id: 3289,
-  //     //     name: 'List Eee',
-  //     //     listId: 477,
-  //     //   },
-  //     // ],
-  //   },
-  //   {
-  //     id: 479,
-  //     name: 'New List',
-  //     userId: 322,
-  //     // list_items: [
-  //     //   {
-  //     //     id: 3287,
-  //     //     name: 'Item 1',
-  //     //     listId: 479,
-  //     //   },
-  //     //   {
-  //     //     id: 3288,
-  //     //     name: 'Item 2',
-  //     //     listId: 479,
-  //     //   },
-  //     // ],
-  //   },
-  // ]);
-
-  // const selectedListId = ref(lists.value[0].id);
-
-  // const listItems = ref<ListItem[]>([
-  //   {
-  //     id: 3287,
-  //     name: 'Item 1',
-  //     listId: 479,
-  //   },
-  //   {
-  //     id: 3288,
-  //     name: 'Item 2',
-  //     listId: 479,
-  //   },
-  // ]);
 
   const lists = ref<List[]>([]);
   const selectedList = ref<List | null>(null);
   const listItems = ref<ListItem[]>([]);
   const isListsLoading = ref(false);
   const isListItemsLoading = ref(false);
+  const sortType = ref<SortType>(SortType.NAME_ASC);
 
   const loadLists = async (): Promise<boolean> => {
     isListsLoading.value = true;
@@ -91,6 +32,9 @@ export const useListStore = defineStore('list', () => {
     try {
       const data = await getListById(id);
       listItems.value = data.list_items;
+      if(sortType.value !== SortType.NAME_ASC) {
+        sortListItems();
+      }
       isListItemsLoading.value = false;
       return true;
     } catch (error) {
@@ -135,17 +79,36 @@ export const useListStore = defineStore('list', () => {
     }
   };
 
+  const sortListItems = () => {
+    switch (sortType.value) {
+      case SortType.NAME_ASC:
+        listItems.value.sort((item1, item2) => item1.name.localeCompare(item2.name));
+        break;
+      case SortType.NAME_DESC:
+        listItems.value.sort((item1, item2) => item2.name.localeCompare(item1.name));
+        break;
+      case SortType.DATE_ASC:
+        listItems.value.sort((item1, item2) => item1.id - item2.id);
+        break;
+      case SortType.DATE_DESC:
+        listItems.value.sort((item1, item2) => item2.id - item1.id);
+        break;
+    }
+  }
+
   return {
     lists,
     selectedList,
     listItems,
     isListsLoading,
     isListItemsLoading,
+    sortType,
     loadLists,
     loadListItems,
     addNewList,
     addItemToList,
     removeList,
     removeItemFromList,
+    sortListItems
   };
 });

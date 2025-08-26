@@ -1,7 +1,4 @@
-import axios from 'axios';
 import api from './axios';
-
-import type { SortItemsBy, SortItemsDir } from '@/types/sorting';
 
 export const getLists = async () => {
   const response = await api.get(`/List`);

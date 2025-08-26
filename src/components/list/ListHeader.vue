@@ -12,11 +12,11 @@
     <div class="blank-space"></div>
     <div>
       <label for="sorting">Sorting</label>
-      <select name="sorting" id="sorting">
-        <option value="date_asc">DATE ASC</option>
-        <option value="date_asc">DATE DESC</option>
-        <option value="name_asc">NAME ASC</option>
-        <option value="name_asc">NAME DESC</option>
+      <select name="sorting" id="sorting" v-model="listStore.sortType" @change="onSortChange">
+        <option :value="SortType.DATE_ASC">DATE ASC</option>
+        <option :value="SortType.DATE_DESC">DATE DESC</option>
+        <option :value="SortType.NAME_ASC">NAME ASC</option>
+        <option :value="SortType.NAME_DESC">NAME DESC</option>
       </select>
     </div>
   </section>
@@ -28,6 +28,7 @@ import { ref } from 'vue';
 import NewListModal from './NewListModal.vue';
 import BaseButton from '../ui/BaseButton.vue';
 import { useListStore } from '@/stores/list';
+import { SortType } from '@/types/sorting';
 
 const listStore = useListStore();
 
@@ -59,6 +60,10 @@ const addNewList = async (newListName: string) => {
   }
   isAddListModalOpen.value = false;
 };
+
+const onSortChange = () => {
+  listStore.sortListItems();
+}
 </script>
 
 <style lang="scss" scoped>
